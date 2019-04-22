@@ -16,20 +16,16 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
-  asyncData(context, callback) {
-    setTimeout(() => {
-      callback(null, {
-        loadedPost: {
-          id: '1',
-          title: 'First Post, (ID: ' + context.params.id + ')',
-          previewText: 'everything is awesome!!!',
-          thumbnail: 'http://lorempixel.com/640/480/sports',
-          author: 'nixdie',
-          updatedDay: new Date()},
-          content: 'some text content here'
+  asyncData(context) {
+    return axios.get('https://nuxt-626bd.firebaseio.com/posts/' + context.params.id + '.json')
+      .then(res => {
+        return {
+          loadedPost: res.data
+        }
       })
-    }, 1500)
+      .catch(e => context.error(e))
   }
 }
 </script>
