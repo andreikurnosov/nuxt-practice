@@ -7,7 +7,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: 'dummy blog',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -22,25 +22,37 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#fa923f', height: '4px', duration: 5000 },
+  loadingIndicator: {
+    name: 'circle',
+    color: '#fa923f'
+  },
 
   /*
   ** Global CSS
   */
   css: [
+    '~assets/styles/main.css'
   ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~plugins/app-components.js',
+    '~plugins/date-filter.js'
   ],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios'
   ],
+  axios: {
+    baseURL: process.env.BASE_URL || 'https://nuxt-626bd.firebaseio.com',
+    credentials: false
+  },
 
   /*
   ** Build configuration
@@ -51,5 +63,12 @@ export default {
     */
     extend(config, ctx) {
     }
+  },
+  env: {
+    baseUrl: process.env.BASE_URL || 'https://nuxt-626bd.firebaseio.com'
+  },
+  transition: {
+    name: 'fade',
+    mode: 'out-in'
   }
 }
