@@ -43,7 +43,7 @@ const createStore = () => {
       addPost(vuexContext, post) {
         const createdPost = {
           ...post,
-          updateDate: new Date()
+          updatedDate: new Date()
         };
         return this.$axios
           .$post(
@@ -96,23 +96,16 @@ const createStore = () => {
             localStorage.setItem('token', res.idToken);
             localStorage.setItem(
               'tokenExpiration',
-              new Date().getTime() + res.expiresIn * 1000
+              new Date().getTime() + Number.parseInt(res.expiresIn) * 1000
             )
 
             Cookie.set('jwt', res.idToken);
             Cookie.set(
               'expirationDate',
-              new Date().getTime() + res.expiresIn * 1000
+              new Date().getTime() + Number.parseInt(res.expiresIn) * 1000
               )
-
-            vuexContext.dispatch('setLogoutTimer', res.expiresIn * 1000);
           })
           .catch((err) => console.log(err));
-      },
-      setLogoutTimer(vuexContext, duration) {
-        setTimeout(() => {
-          vuexContext.commit('clearToken');
-        }, duration);
       },
       initAuth(vuexContext, req) {
         let token
@@ -135,14 +128,12 @@ const createStore = () => {
         } else {
           token = localStorage.getItem('token');
           expirationDate = localStorage.getItem('tokenExpiration');
-          if (new Date().getTime() > +expirationDate || !token) {
-            return;
-          }
         }
-        vuexContext.dispatch(
-          'setLogoutTimer',
-          +expirationDate - new Date().getTime()
-        );
+        if (new Date().getTime() > +expirationDate || !token) {
+          console.log('no token, or token is invalid')
+          vuexContext.commit('clearToken')
+          return
+        }
         vuexContext.commit('setToken', token);
       }
     },
