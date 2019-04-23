@@ -65,10 +65,14 @@ export default {
     }
   },
   env: {
-    baseUrl: process.env.BASE_URL || 'https://nuxt-626bd.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://nuxt-626bd.firebaseio.com',
+    fbAPIkey: 'AIzaSyCpuDPFpNxe61lVjyLsc1qD7YgqD3mLT4E'
   },
   transition: {
     name: 'fade',
     mode: 'out-in'
-  }
+  },
+  // router: {
+  //   middleware: 'auth'
+  // }
 }

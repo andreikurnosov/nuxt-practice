@@ -7,6 +7,7 @@
 <script>
 export default {
   name: 'PostsIndex',
+  middleware: 'log',
   computed: {
     loadedPosts() {
       return this.$store.getters.loadedPosts
